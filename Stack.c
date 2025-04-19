@@ -1,38 +1,64 @@
 #include <stdio.h>
+#include <stdlib.h>
 
-struct Node {
-	int data;
-	struct Node* next;
-};
+#include "Card.h"
+#include "Stack.h"
 
-typedef struct  {
-	struct Node *tail;
-	int count;
-} Stack;
 
-void push(Stack list, int item) {
-	struct Node itemnode = {.data = item};
-	if (list.count == 0)
+
+void push(Stack *list, Card item) {
+	struct Node *itemnode = malloc(sizeof(struct Node));
+	itemnode->data = item;
+	itemnode->next = NULL;
+	if (list->count == 0)
 	{
-		itemnode.next = &itemnode;
+		itemnode->next = itemnode;
 	} else {
-		itemnode.next = list.tail;
-		list.tail = &itemnode;
+		itemnode->next = list->tail;
+		list->tail = itemnode;
 	}
-	list.tail = &itemnode;
-	list.count++;
+	list->tail = itemnode;
+	list->count++;
 }
 
-struct Node pop(Stack stack)
+struct Node *removeAt(Stack *list, int index)
 {
-	struct Node itemnode = *stack.tail;
-	stack.tail = NULL;
-	return itemnode;
+	if (index < 0 || index >= list->count)
+	{
+		printf("index out of bounds\n");
+		return NULL;
+	}
+	struct Node *ret = malloc(sizeof(struct Node));
+	if (index == 0)
+	{
+		ret = list->tail;
+		if (list->count == 1) {
+			list->tail = NULL;
+		} else {
+			list->tail = list->tail->next;
+		}
+		list->count--;
+	} else {
+		struct Node *prev = list->tail->next;
+		for (int i = 0; i < index-1; i++) {
+			prev = prev->next;
+		}
+
+		struct Node *curr = prev->next;
+		ret = curr;
+		prev->next = curr->next;
+		curr->next = NULL;
+		list->count--;
+		if (curr == list->tail)
+		{
+			list->tail = prev;
+		}
+	}
+	return ret;
 }
 
-int main()
+Card pop(Stack *stack)
 {
-	Stack deck;
-	struct Node x = {.data = 20};
-	push(deck, 7);
+	return removeAt(stack, 0)->data;
 }
+

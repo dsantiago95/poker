@@ -1,4 +1,4 @@
-CFLAGS = -g
+CFLAGS = -g -std=c99 -Wall
 src_files := $(wildcard *.c)
 obj_files := $(src_files:.c=.o)
 hdr_files := $(wildcard *.h)

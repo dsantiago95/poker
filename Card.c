@@ -1,9 +1,9 @@
-typedef struct {
-	int rank;
-	char suit;
-} Card;
+#include <stdio.h>
 
-Card Deck[52] = {
+#include "Stack.h"
+#include "Card.h"
+
+Card Deck[52] = {//*{{{*/
 	(Card) {.rank = 1, .suit = 'h'},
 	(Card) {.rank = 2, .suit = 'h'},
 	(Card) {.rank = 3, .suit = 'h'},
@@ -56,5 +56,13 @@ Card Deck[52] = {
 	(Card) {.rank = 11, .suit = 's'},
 	(Card) {.rank = 12, .suit = 's'},
 	(Card) {.rank = 13, .suit = 's'}
-};
+};/*}}}*/
 
+
+int main()
+{
+	Stack shuffled_deck = {.tail = NULL, .count = 0};
+	for (int i = 0; i < 52; i++) {
+		push(&shuffled_deck, Deck[i]);
+	}
+}
