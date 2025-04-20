@@ -10,4 +10,4 @@ $(obj_files): %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
-	rm *.o
+	rm *.o main
